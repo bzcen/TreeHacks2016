@@ -1,4 +1,0 @@
-GetHoroscope what is the horoscope for {Sign}
-GetHoroscope what will the horoscope for {Sign} be on {Date}
-GetHoroscope get me my horoscope
-GetHoroscope {Sign}
