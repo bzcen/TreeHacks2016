@@ -13,7 +13,23 @@ var textHelper = require('./textHelper'),
     storage = require('./storage');
 
 var registerIntentHandlers = function (intentHandlers, skillContext) {
-    intentHandlers.NewGameIntent = function (intent, session, response) {
+    intentHandlers.NewRecipeIntent = function (intent, session, response) {
+
+        // get the recipe from the intent
+        var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
+        storage.newGame(session).save(function () {
+            var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, steps, or other?';
+            var repromptText = 'Do you want to hear ingredients, steps, or other?';
+            response.ask(speechOutput, repromptText);
+            storage.loadGame(session, function (currentGame){
+
+            });
+        });
+        return;
+
+
+
+
         //reset scores for all existing players
         storage.loadGame(session, function (currentGame) {
             if (currentGame.data.players.length === 0) {
@@ -42,20 +58,24 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         });
     };
 
+    intentHandlers.ListIngredientsIntent = function (intent, session, response) {
+        
+    }
+
     intentHandlers.AddPlayerIntent = function (intent, session, response) {
         //add a player to the current game,
         //terminate or continue the conversation based on whether the intent
         //is from a one shot command or not.
-        var newPlayerName = textHelper.getPlayerName(intent.slots.PlayerName.value);
-        if (!newPlayerName) {
-            response.ask('OK. Who do you want to add?', 'Who do you want to add?');
+        var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
+        if (!recipeName) {
+            response.ask('OK. What do you want to cook today?', 'What do you want to cook today?');
             return;
         }
         storage.loadGame(session, function (currentGame) {
             var speechOutput,
                 reprompt;
-            if (currentGame.data.scores[newPlayerName] !== undefined) {
-                speechOutput = newPlayerName + ' has already joined the game.';
+            if (currentGame.data.scores[recipeName] !== undefined) {
+                speechOutput = recipeName + ' has already joined the game.';
                 if (skillContext.needMoreHelp) {
                     response.ask(speechOutput + ' What else?', 'What else?');
                 } else {
@@ -63,9 +83,9 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                 }
                 return;
             }
-            speechOutput = newPlayerName + ' has joined your game. ';
-            currentGame.data.players.push(newPlayerName);
-            currentGame.data.scores[newPlayerName] = 0;
+            speechOutput = recipeName + ' has joined your game. ';
+            currentGame.data.players.push(recipeName);
+            currentGame.data.scores[recipeName] = 0;
             if (skillContext.needMoreHelp) {
                 if (currentGame.data.players.length == 1) {
                     speechOutput += 'You can say, I am Done Adding Players. Now who\'s your next player?';
@@ -87,10 +107,10 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
     intentHandlers.AddScoreIntent = function (intent, session, response) {
         //give a player points, ask additional question if slot values are missing.
-        var playerName = textHelper.getPlayerName(intent.slots.PlayerName.value),
+        var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value),
             score = intent.slots.ScoreNumber,
             scoreValue;
-        if (!playerName) {
+        if (!recipeName) {
             response.ask('sorry, I did not hear the player name, please say that again', 'Please say the name again');
             return;
         }
@@ -107,13 +127,13 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                 return;
             }
             for (var i = 0; i < currentGame.data.players.length; i++) {
-                if (currentGame.data.players[i] === playerName) {
+                if (currentGame.data.players[i] === recipeName) {
                     targetPlayer = currentGame.data.players[i];
                     break;
                 }
             }
             if (!targetPlayer) {
-                response.ask('Sorry, ' + playerName + ' has not joined the game. What else?', playerName + ' has not joined the game. What else?');
+                response.ask('Sorry, ' + recipeName + ' has not joined the game. What else?', recipeName + ' has not joined the game. What else?');
                 return;
             }
             newScore = currentGame.data.scores[targetPlayer] + scoreValue;
