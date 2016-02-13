@@ -1,7 +1,7 @@
 import boto3
+from botocore.exceptions import ClientError
 import json
 import decimal
-from boto3.dynamodb.conditions import Key, Attr
 
 # Helper class to convert a DynamoDB item to JSON.
 class DecimalEncoder(json.JSONEncoder):
@@ -13,16 +13,21 @@ class DecimalEncoder(json.JSONEncoder):
                 return int(o)
         return super(DecimalEncoder, self).default(o)
 
-#dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="http://localhost:8000")
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="https://dynamodb.us-east-1.amazonaws.com")
+
 table = dynamodb.Table('Recipes')
 
-query = "pizza"
+title = "pizza"
+creator = "amy"
 
-response = table.query(
-    KeyConditionExpression=Key('title').eq(query)
+print("Attempting a delete...")
+
+response = table.delete_item(
+    Key={
+        'title': title,
+        'creator': creator
+    }
 )
 
-print 'Query returned %d results.' % len(response['Items'])
-for i in response['Items']:
-    print 'Recipe: %s, Creator: %s' % (i['title'], i['creator'])
+print("DeleteItem succeeded:")
+print(json.dumps(response, indent=4, cls=DecimalEncoder))

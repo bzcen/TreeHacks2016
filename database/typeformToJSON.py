@@ -33,14 +33,11 @@ def parseIngredients(string):
     return [x.strip() for x in string.split('\n')]
 
 def convert():
-    #dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="http://localhost:8000")
-    dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="https://dynamodb.us-east-1.amazonaws.com")
-    table = dynamodb.Table('Recipes')
-
+    wf = open("recipes_data.json", 'w')
+    alldata = []
     with open("typeformResults.json") as typeform_file:
         form = json.load(typeform_file, parse_float = decimal.Decimal)
         if len(form['responses']) == 0:
-            print 'No new recipe entries.'
             return
 
         for response in form['responses']:
@@ -55,12 +52,11 @@ def convert():
             steps = parseSteps(response['answers']['textarea_17284501'])
             ingredients = parseIngredients(response['answers']['textarea_17284500'])
 
-            put_result = table.put_item(
-                Item={
-                    'actual_title': title,
+            item={
                     'title': title.lower(),
-                    'actual_creator': creator,
+                    'actual_title': title,
                     'creator': creator.lower(),
+                    'actual_creator': creator,
                     'categories': categories,
                     'calories': int(response['answers']['textfield_17284288']),
                     'servings': int(response['answers']['textfield_17284291']),
@@ -69,10 +65,12 @@ def convert():
                     'ingredients': ingredients,
                     'ratings': 5
                 }
-            )
 
-            print "PutItem succeeded:"
-            print json.dumps(put_result, indent=4, cls=DecimalEncoder)
+            alldata.append(item)
+
+    print 'Writing to file...'
+    json.dump(alldata, wf)
+        
 
 if __name__ == "__main__":
     convert()
