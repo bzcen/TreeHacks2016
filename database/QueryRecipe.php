@@ -1,4 +1,4 @@
-require 'vendor/autoload.php';
+require 'aws/aws-autoloader.php';
 
 $sdk = new Aws\Sdk([
     'region'   => 'us-east-1',
