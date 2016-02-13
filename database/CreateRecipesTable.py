@@ -12,34 +12,18 @@ table = dynamodb.create_table(
                 {
                     'AttributeName': 'creator',
                     'KeyType': 'RANGE'  # Sort Key
-                }
+                },
                 ],
             AttributeDefinitions=[
                 {
                     'AttributeName': 'title',
-                    'AttributeType': 'S',
+                    'AttributeType': 'S'
                 },
                 {
                     'AttributeName': 'creator',
-                    'AttributeType': 'S',
+                    'AttributeType': 'S'
                 },
-                {
-                    'AttributeName': 'category',
-                    'AttributeType': 'S',
-                },
-                {
-                    'AttributeName': 'servings',
-                    'AttributeType': 'N',
-                },
-                {
-                    'AttributeName': 'steps',
-                    'AttributeType': 'S',
-                },
-                {
-                    'AttributeName': 'ingredients',
-                    'AttributeType': 'S',
-                }
-                ], # end AttributeDefinitions[]
+                ],
             ProvisionedThroughput={
                 'ReadCapacityUnits': 5,
                 'WriteCapacityUnits': 5
