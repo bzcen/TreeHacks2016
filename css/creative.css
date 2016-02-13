@@ -23,16 +23,22 @@ div#scrollable{
     z-index: 5;
     height: 100%;
 }
-#recipe-title{
+.recipe-list h4
+{
+    margin-top: 3vmin;
     color: #f05f40;
+}
+#recipe-title{
+    color: #febf3e;
 }
 ol li, ul li
 {
     font-family: Open Sans;
 }
-
-
-
+hr.full{
+    max-width: none !important;
+    border-color: #555 !important;
+}
 
 /* END CUSTOM CSS */
 
