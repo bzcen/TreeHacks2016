@@ -400,11 +400,54 @@ AddPlayerIntent add player {RecipeName}
 AddScoreIntent give {RecipeName} {ScoreNumber}
 
 ListIngredientsIntent ingredients
+ListIngredientsIntent the ingredients
+ListIngredientsIntent what are the ingredients
+ListIngredientsIntent tell me the ingredients
+ListIngredientsIntent I'll hear the ingredients
+ListIngredientsIntent I'll hear ingredients
+ListIngredientsIntent I want to know the ingredients
+ListIngredientsIntent give me the ingredients
+ListIngredientsIntent list the ingredients
+ListIngredientsIntent say the ingredients
+ListIngredientsIntent what do I need
+ListIngredientsIntent what should I buy
+ListIngredientsIntent what should I get
+ListIngredientsIntent repeat the ingredients
+ListIngredientsIntent repeat ingredients
 
 NextStepIntent next
-NextStepIntent next
+NextStepIntent next step
+NextStepIntent okay
+NextStepIntent I'm done
+NextStepIntent I am done
+NextStepIntent done
+NextStepIntent what's next
+NextStepIntent what is next
+NextStepIntent what do I do next
+NextStepIntent what's the next step
+NextStepIntent what is the next step
+NextStepIntent next step, please
+NextStepIntent read me the next step
+NextStepIntent tell me the next step
+NextStepIntent tell me what's next
+NextStepIntent tell me what is next
+NextStepIntent give me the next step
+NextStepIntent next procedure
+NextStepIntent next process
+NextStepIntent what do I do now
+NextStepIntent now what
+NextStepIntent okay, now what
 
 AskCaloriesIntent calories
+AskCaloriesIntent how many calories is it
+AskCaloriesIntent the calories
+AskCaloriesIntent I want to hear the calories
+AskCaloriesIntent tell me the calories
+AskCaloriesIntent tell me how many calories
+AskCaloriesIntent how fat is it
+AskCaloriesIntent I will hear the calories
+AskCaloriesIntent how many calories is this
+AskCaloriesIntent 
 
 AskNumServingsIntent servings
 
