@@ -1,0 +1,109 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  padding: 30px;
+  background: #eaeaea;
+}
+
+a.button {
+  padding: 6px 14px;
+  background-color: #888;
+  color: #FFF;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1em;
+}
+a.button:hover {
+  background-color: #3a3a3a;
+}
+
+h1 {
+  color: #6a6a6a;
+  line-height: 1.2em;
+  margin: 10px 0;
+  font-weight: 300;
+  font-size: 3em;
+}
+
+section.data {
+  position: relative;
+  overflow: hidden;
+  padding: 0 0 30px 0;
+  margin: 0 0 40px 0;
+}
+section.data div.measure {
+  position: absolute;
+  height: 100%;
+  border-right: 2px dashed #888;
+  margin: 0 0 35px 0;
+}
+section.data div.measure:after {
+  content: "Average Progress " attr(data-percentage) "%";
+  position: absolute;
+  bottom: 0px;
+  right: -3px;
+  background-color: #888;
+  color: #FFF;
+  padding: 4px 16px 4px 8px;
+}
+
+div.bar-wrap {
+  width: 100%;
+  display: block;
+  margin: 0 0 20px 0;
+  overflow: hidden;
+}
+div.bar-wrap label {
+  font-size: 0.8em;
+  color: #8a8a8a;
+  text-transform: uppercase;
+  margin: 0 0 2px 0;
+  display: block;
+}
+div.bar-wrap div.bar {
+  height: 40px;
+  width: 0;
+  position: relative;
+}
+div.bar-wrap div.bar:after {
+  content: attr(data-percentage) " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  padding: 10px;
+}
+div.bar-wrap div.bar.blue {
+  background-color: #61a7c4;
+  border-bottom: 3px solid #4290b0;
+}
+div.bar-wrap div.bar.blue:after {
+  color: #FFF;
+}
+div.bar-wrap div.bar.green {
+  background-color: #61c471;
+  border-bottom: 3px solid #42b054;
+}
+div.bar-wrap div.bar.green:after {
+  color: #FFF;
+}
+div.bar-wrap div.bar.red {
+  background-color: #c46161;
+  border-bottom: 3px solid #b04242;
+}
+div.bar-wrap div.bar.red:after {
+  color: #FFF;
+}
+div.bar-wrap div.bar.purple {
+  background-color: #a461c4;
+  border-bottom: 3px solid #8d42b0;
+}
+div.bar-wrap div.bar.purple:after {
+  color: #FFF;
+}
