@@ -14,7 +14,7 @@ with open("recipes_data.json") as json_file:
 
         table.put_item( Item = { 'title': title,
                                  'creator': creator,
-                                 'category': recipe['category'],
+                                 'categories': recipe['categories'],
                                  'calories': int(recipe['calories']),
                                  'servings': int(recipe['servings']),
                                  'steps': recipe['steps'],

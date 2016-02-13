@@ -1,7 +1,7 @@
 [
     {
         "title": "cheesecake",
-        "category": "dessert",
+        "categories": ["dessert"]
         "calories": 800,
         "servings": 6,
         "steps": ["Preheat oven to 325 degrees F", 
