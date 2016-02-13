@@ -107,3 +107,5 @@ div.bar-wrap div.bar.purple {
 div.bar-wrap div.bar.purple:after {
   color: #FFF;
 }
+
+#graph {border: 1px solid #111;}
