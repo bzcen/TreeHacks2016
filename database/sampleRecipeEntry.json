@@ -3,7 +3,11 @@
     "category": "dessert",
     "calories": 800,
     "servings": 6,
-    "steps": "here is the dark side . It is the dark side . ",
-    "ingredients": "2 eggs, 3 1/2 cup milk, 2 cup flour, 8 ounces cream cheese.",
+    "steps": ["Preheat oven to 325 degrees F", 
+              "Mix milk, cream cheese and sugar"],
+    "ingredients": ["2 eggs",
+                    "3 1/2 cup milk",
+                    "2 cup flour", 
+                    "8 ounces cream cheese"],
     "creator": "Eli"
 }

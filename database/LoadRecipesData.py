@@ -18,6 +18,7 @@ with open("recipes_data.json") as json_file:
                                  'calories': int(recipe['calories']),
                                  'servings': int(recipe['servings']),
                                  'steps': recipe['steps'],
+                                 'current_step': 0,
                                  'ingredients': recipe['ingredients']
                                 }
                       )
