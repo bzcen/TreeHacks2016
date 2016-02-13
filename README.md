@@ -4,4 +4,4 @@
 * Brandon Cen
 * Cherrie Wang
 * Elizabeth Chu
-* Izzy Benavente
+* Izzy Benavente                                                                                                                                                                                                                                                                                                                                                                                                                      
