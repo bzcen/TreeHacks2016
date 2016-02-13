@@ -13,6 +13,15 @@
       "intent": "NextStepIntent"
     },
     {
+      "intent": "AskCaloriesIntent"
+    },
+    {
+      "intent": "AskNumServingsIntent"
+    },
+    {
+      "intent": "AskRatingIntent"
+    },
+    {
       "intent": "AddScoreIntent",
       "slots": [
         {
@@ -36,6 +45,9 @@
           "type": "LIST_OF_PLAYER_NAMES"
         }
       ]
+    },
+    {
+      "intent": "ListIngredientsIntent"
     },
     {
       "intent": "TellScoresIntent"

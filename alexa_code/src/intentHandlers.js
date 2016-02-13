@@ -15,6 +15,8 @@ var textHelper = require('./textHelper'),
 var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.NewRecipeIntent = function (intent, session, response) {
 
+        // TASK: reconfigure the "new game" for our own table
+
         // get the recipe from the intent
         var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
         storage.newGame(session).save(function () {
@@ -55,10 +57,31 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         });
     };
 
+    // TASK: actually link this to database, pulling
     intentHandlers.ListIngredientsIntent = function (intent, session, response) {
 
         response.ask('The ingredients are ', 'Do you want to hear ingredients, begin cooking, or other?');
         return;
+    }
+
+    intentHandlers.AskCaloriesIntent = function (intent, session, response) {
+        var calories = 100;
+
+        response.ask("This recipe is " + calories.toString() + " calories per serving.", "Do you want to hear ingredients, begin cooking, or other?");
+    }
+
+    intentHandlers.AskRatingIntent = function (intent, session, response) {
+        var rating = 5;
+
+        if (rating === 5) {
+            response.ask("Previous people have said this recipe is great!", "Do you want to hear ingredients, begin cooking, or other?");
+        }
+    }
+
+    intentHandlers.AskNumServingsIntent = function (intent, session, response) {
+        var servings = 5;
+
+        response.ask("This recipe is designed for " + servings.toString() + " servings.", "Do you want to hear ingredients, begin cooking, or other?");
     }
 
 

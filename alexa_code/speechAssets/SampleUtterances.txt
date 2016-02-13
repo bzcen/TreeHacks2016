@@ -402,4 +402,10 @@ AddScoreIntent give {RecipeName} {ScoreNumber}
 ListIngredientsIntent ingredients
 
 NextStepIntent next
-NextStepIntent next step
+NextStepIntent next
+
+AskCaloriesIntent calories
+
+AskNumServingsIntent servings
+
+AskRatingIntent rating
