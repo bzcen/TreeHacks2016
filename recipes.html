@@ -46,11 +46,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Echo Chef</a>
+                <a class="navbar-brand page-scroll" href="index.html">Echo Chef</a>
             </div>
+            <div class="navbar-brand recipe-list-header"><a href="#">RECIPE DATABASE</a></div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a class="page-scroll" href="#about">About</a>
@@ -65,221 +66,175 @@
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
                 </ul>
-            </div>
+            </div>-->
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
-    </nav>
+    </nav> 
 
-    <header>
-        <div class="header-content">
-            <div class="header-content-inner">
-                <h1>Your Personal Assistant in the Kitchen</h1>
-                <hr>
-                <p>Echo Chef can guide you through recipes interactively. Just add your favorite recipes to our web interface and they'll be available on your Echo! Ask for step by step instructions, preheat temperatures, and more! </p>
-                <a href="#about" class="btn btn-primary btn-xl page-scroll">Find Out More</a>
-            </div>
-        </div>
-    </header>
+    <div id="fixed-bg">
+        
+    </div>
+    <div class="scrollable">
+        <div class="recipe-list container bg-dark">
+            <div class="row">
+                <div class="col-lg-4 text-left">
+                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
+                    <h5 id="category">CATEGORIES</h3>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>
+                            2 Eggs
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-8 text-left">                           
+                    <h3 style="margin-top:0">Step by Step Instructions</h3>
+                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
+                    <ol>
+                        <li>
+                            Heat oven
+                        </li>
 
-    <section class="bg-primary" id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">A hands-free way to follow recipes while you cook.</h2>
-                    <hr class="light">
-                    <p class="text-faded">
-                        Echo Chef eliminates the need to bring your phone or computer into the kitchen. Using the Amazon Echo, simply ask Alexa to start a recipe and jump right in!
-                    </p>
-                    <a href="https://izzy46.typeform.com/to/yvDTj0" class="btn btn-default btn-xl" target="_blank">Add a recipe now!</a>
+                        <li>
+                            Make cookies
+                        </li>
+                    </ol>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <section id="services">
-        <div class="container">
+            <br /><br />
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">At Your Service</h2>
-                    <hr class="primary">
+                <div class="col-lg-4 text-left">
+                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
+                    <h5 id="category">CATEGORIES</h3>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>
+                            2 Eggs
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
-                        <h3>Add Recipes</h3>
-                        <p class="text-muted">Curate your own list of recipes for Echo Chef to share with you.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
-                        <h3>Ask Alexa</h3>
-                        <p class="text-muted">Need the next step or the number of eggs? Just ask!</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                        <h3>View Statistics</h3>
-                        <p class="text-muted">See how your onion dicing skills have improved and more!</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
-                        <h3>Made with Love</h3>
-                        <p class="text-muted">So you can cook with love!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="col-lg-8 text-left">                           
+                    <h3 style="margin-top:0">Step by Step Instructions</h3>
+                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
+                    <ol>
+                        <li>
+                            Heat oven
+                        </li>
 
-    <section class="bg-dark" id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">View Existing Recipes</h2>
-                    <p class="text-faded">
-                        We've included a few recipes to start with, but any user-added recipes from the form above will also be available 
-                        to browse.
-                    </p><br />
-                    <a href="https://izzy46.typeform.com/to/yvDTj0" class="btn btn-primary btn-xl" target="_blank">Recipe Database</a>
+                        <li>
+                            Make cookies
+                        </li>
+                    </ol>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="no-padding">
-        <div class="container-fluid">
-            <div class="row no-gutter">
-                <div class="col-lg-4 col-sm-6" >
-                    <div class="portfolio-box">
-                        <img src="img/portfolio/1.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Main Entree
-                                </div>
-                                <div class="project-name">
-                                    Beef Stir Fry
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <div class="portfolio-box">
-                        <img src="img/portfolio/2.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Dessert
-                                </div>
-                                <div class="project-name">
-                                    Chocolate Fudge Cupcakes
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <div class="portfolio-box">
-                        <img src="img/portfolio/3.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Main Course
-                                </div>
-                                <div class="project-name">
-                                    Honey Glazed Ribs with Veggies
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <div class="portfolio-box">
-                        <img src="img/portfolio/4.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Main Course
-                                </div>
-                                <div class="project-name">
-                                    Classic Supreme Pizza
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <div class="portfolio-box">
-                        <img src="img/portfolio/5.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Main Entree
-                                </div>
-                                <div class="project-name">
-                                    Spicy Pork Tacos
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <div class="portfolio-box">
-                        <img src="img/portfolio/6.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Appetizer
-                                </div>
-                                <div class="project-name">
-                                    Chunky Chicken Kebabs
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <aside class="bg-dark" id="portfolio">
-        <div class="container text-center">
-            <div class="call-to-action">
-                <h2>Want to learn more about your cooking statistics?</h2> <h4>From your completion time of each recipe, to your most often used ingredients. Check out our data visualization page!</h4> <br />
-                <a href="data.html" class="btn btn-default btn-xl wow tada">View Now!</a>
-            </div>
-        </div>
-    </aside>
 
-    <section id="contact">
-        <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">Let's Get In Touch!</h2>
-                    <hr class="primary">
-                    <p>Have any questions or comments about Echo Chef? Send us an email and we will get back to you as soon as possible!</p>
+                <div class="col-lg-4 text-left">
+                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
+                    <h5 id="category">CATEGORIES</h3>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>
+                            2 Eggs
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-lg-4 col-lg-offset-2 text-center">
-                    <i class="fa fa-phone fa-3x wow bounceIn"></i>
-                    <p>123-456-6789</p>
+                <div class="col-lg-8 text-left">                           
+                    <h3 style="margin-top:0">Step by Step Instructions</h3>
+                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
+                    <ol>
+                        <li>
+                            Heat oven
+                        </li>
+
+                        <li>
+                            Make cookies
+                        </li>
+                    </ol>
                 </div>
-                <div class="col-lg-4 text-center">
-                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
-                    <p><a href="mailto:your-email@your-domain.com">ibenaven@usc.edu</a></p>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-lg-4 text-left">
+                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
+                    <h5 id="category">CATEGORIES</h3>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>
+                            2 Eggs
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-8 text-left">                           
+                    <h3 style="margin-top:0">Step by Step Instructions</h3>
+                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
+                    <ol>
+                        <li>
+                            Heat oven
+                        </li>
+
+                        <li>
+                            Make cookies
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 text-left">
+                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
+                    <h5 id="category">CATEGORIES</h3>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>
+                            2 Eggs
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-8 text-left">                           
+                    <h3 style="margin-top:0">Step by Step Instructions</h3>
+                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
+                    <ol>
+                        <li>
+                            Heat oven
+                        </li>
+
+                        <li>
+                            Make cookies
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-lg-4 text-left">
+                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
+                    <h5 id="category">CATEGORIES</h3>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>
+                            2 Eggs
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-8 text-left">                           
+                    <h3 style="margin-top:0">Step by Step Instructions</h3>
+                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
+                    <ol>
+                        <li>
+                            Heat oven
+                        </li>
+
+                        <li>
+                            Make cookies
+                        </li>
+                    </ol>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
