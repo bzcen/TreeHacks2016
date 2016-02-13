@@ -24,7 +24,7 @@ var storage = (function () {
             this.data = {
                 players: [],
                 scores: {},
-                step: 1
+                step: 0
             };
         }
         this._session = session;

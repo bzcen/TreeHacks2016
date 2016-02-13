@@ -349,40 +349,7 @@ ResetPlayersIntent wipe those players
 ResetPlayersIntent wipe those points
 ResetPlayersIntent wipe those numbers
 
-NewGameIntent begin a game
-NewGameIntent begin a new game
-NewGameIntent begin game
-NewGameIntent begin new game
-NewGameIntent create a game
-NewGameIntent create a new game
-NewGameIntent create game
-NewGameIntent create new game
-NewGameIntent do a game
-NewGameIntent do a new game
-NewGameIntent do game
-NewGameIntent do new game
-NewGameIntent make a game
-NewGameIntent make a new game
-NewGameIntent make game
-NewGameIntent make new game
-NewGameIntent new game
-NewGameIntent open a game
-NewGameIntent open a new game
-NewGameIntent open game
-NewGameIntent open new game
-NewGameIntent restart
-NewGameIntent restart game
-NewGameIntent set up a game
-NewGameIntent set up a new game
-NewGameIntent set up game
-NewGameIntent set up new game
-NewGameIntent begin score
-NewGameIntent create score
-NewGameIntent do score
-NewGameIntent make score
-NewGameIntent open score
-NewGameIntent set up score
-NewGameIntent start a game
+NewRecipeIntent begin a game {RecipeName}
 
 TellScoresIntent first
 TellScoresIntent first place
@@ -428,17 +395,11 @@ TellScoresIntent who's got the most points
 TellScoresIntent who's in the lead
 TellScoresIntent winner
 
-AddPlayerIntent add player {PlayerName}
-AddPlayerIntent add {PlayerName}
-AddPlayerIntent add {PlayerName} to the game
-AddPlayerIntent add player {PlayerName} to the game
-AddPlayerIntent add {PlayerName} to the game
-AddPlayerIntent {PlayerName}
+AddPlayerIntent add player {RecipeName}
 
-AddScoreIntent give {PlayerName} {ScoreNumber}
-AddScoreIntent give {PlayerName} {ScoreNumber} points
-AddScoreIntent {ScoreNumber} more for {PlayerName}
-AddScoreIntent {ScoreNumber} for {PlayerName}
-AddScoreIntent give {PlayerName} {ScoreNumber} more points
-AddScoreIntent {ScoreNumber} more points for {PlayerName}
-AddScoreIntent {ScoreNumber} points for {PlayerName}
+AddScoreIntent give {RecipeName} {ScoreNumber}
+
+ListIngredientsIntent ingredients
+
+NextStepIntent next
+NextStepIntent next step

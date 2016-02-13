@@ -10,6 +10,9 @@
       ]
     },
     {
+      "intent": "NextStepIntent"
+    },
+    {
       "intent": "AddScoreIntent",
       "slots": [
         {

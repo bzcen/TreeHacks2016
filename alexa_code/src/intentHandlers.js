@@ -18,12 +18,9 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         // get the recipe from the intent
         var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
         storage.newGame(session).save(function () {
-            var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, steps, or other?';
-            var repromptText = 'Do you want to hear ingredients, steps, or other?';
+            var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
+            var repromptText = 'Do you want to hear ingredients, begin cooking, or other?';
             response.ask(speechOutput, repromptText);
-            storage.loadGame(session, function (currentGame){
-
-            });
         });
         return;
 
@@ -59,8 +56,27 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     };
 
     intentHandlers.ListIngredientsIntent = function (intent, session, response) {
-        
+
+        response.ask('The ingredients are ', 'Do you want to hear ingredients, begin cooking, or other?');
+        return;
     }
+
+
+    intentHandlers.NextStepIntent = function (intent, session, response) {
+
+        storage.loadGame(session, function (currentGame) {
+
+            currentGame.data.step = currentGame.data.step + 1;
+            response.ask('Next step.', 'Next step.');
+            currentGame.save(function (){
+
+            });
+            return;
+            
+        });
+    }
+
+
 
     intentHandlers.AddPlayerIntent = function (intent, session, response) {
         //add a player to the current game,
