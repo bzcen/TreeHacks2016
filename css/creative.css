@@ -16,12 +16,11 @@ div#scrollable{
     height: 100%;
 }
 .recipe-list{
-    width: 85%;
-    opacity: 0.9;
-    padding: 10vmin 15vmin 5vmin 15vmin;
+    padding: 10vmin 10vmin 5vmin 10vmin;
+    margin: auto 5vmin;
     position: relative;
-    z-index: 5;
-    height: 100%;
+    z-index: -1;    
+    opacity: 0.9;
 }
 .recipe-list h4
 {
