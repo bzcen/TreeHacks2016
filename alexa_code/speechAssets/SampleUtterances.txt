@@ -428,7 +428,7 @@ NextStepIntent what is next
 NextStepIntent what do I do next
 NextStepIntent what's the next step
 NextStepIntent what is the next step
-NextStepIntent next step, please
+NextStepIntent next step please
 NextStepIntent read me the next step
 NextStepIntent tell me the next step
 NextStepIntent tell me what's next
@@ -438,7 +438,7 @@ NextStepIntent next procedure
 NextStepIntent next process
 NextStepIntent what do I do now
 NextStepIntent now what
-NextStepIntent okay, now what
+NextStepIntent okay now what
 NextStepIntent state the next step
 NextStepIntent say the next step
 
@@ -462,3 +462,6 @@ AskCaloriesIntent recite the calories
 AskNumServingsIntent servings
 
 AskRatingIntent rating
+
+RepeatStepIntent can you repeat that
+RepeatStepIntent repeat
