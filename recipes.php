@@ -5,7 +5,6 @@
         'region'   => 'us-east-1',
         'version'  => 'latest',
         'endpoint' => 'https://dynamodb.us-east-1.amazonaws.com',
-        'debug'    => true,
         'credentials' => [
             'key'    => 'AKIAI6QGMWIWAPXYQISQ',
             'secret' => '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'
@@ -89,8 +88,7 @@
         <!-- /.container-fluid -->
     </nav> 
 
-    <div id="fixed-bg">
-        
+    <div id="fixed-bg">        
     </div>
     
     <div class="scrollable">
@@ -102,7 +100,18 @@
                             <?php echo $value['actual_title']['S']; ?>
                         </h2>    
                         <h5 id="category">
-                            fgfg <?php echo $value['categories'][0][0]['S']; ?>
+                            <?php 
+                                foreach($value['categories'] as $cValue){   
+                                    foreach($cValue as $cKey => $c){
+                                        echo $c['S']; 
+                                        
+                                        if($cKey < count($cValue) - 1)
+                                        {
+                                            echo ', ';
+                                        }
+                                    }
+                                }
+                            ?>
                         </h5>
                         <h4>Ingredients</h4>
                         <ul>
