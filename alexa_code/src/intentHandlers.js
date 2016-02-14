@@ -403,6 +403,98 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.NextStepIntent = function (intent, session, response) {
 
 
+        var step = 0;
+        var id;
+        var total_steps;
+        var text;
+
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+
+                id = data.Item.Recipe.S;
+                step = data.Item.Step.N;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
+
+                    }else {
+                        total_steps = data.Item.steps.length;
+                        var list = data.Item.steps.L;
+                        text = list[step-1].S;
+
+                        step++;
+                        if (step >= total_steps){
+                            text += " Enjoy your " + id + "!";
+                            response.tell(text);
+                            return;
+                        } else {
+
+                            dynamodb.putItem({
+                            TableName: 'RecipeState',
+                            Item: {
+                            Name: {
+                                S: 'test'
+                            }   ,
+                            Recipe: {
+                                S: id
+                            },
+                            Step: {
+                                N: step.toString()
+                            }
+
+                    }
+                }, function (err, data) {
+                    if (err){
+                        console.log(err);
+                    }
+                    response.ask(text, "Do you want to continue?");
+                    
+                });
+
+                            
+
+                        }
+
+                    }
+                });
+
+            }
+        });
 
         /*
         storage.loadGame(session, function (currentGame) {
