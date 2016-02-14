@@ -23,7 +23,8 @@ with open("recipes_data.json") as json_file:
                                  'steps': recipe['steps'],
                                  'current_step': recipe['current_step'],
                                  'ingredients': recipe['ingredients'],
-                                 'ratings': recipe['ratings']
+                                 'ratings': recipe['ratings'],
+                                 'num_ratings': recipe['num_ratings']
                                 }
                       )
         

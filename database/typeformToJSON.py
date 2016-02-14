@@ -63,7 +63,8 @@ def convert():
                     'steps': steps,
                     'current_step': 0,
                     'ingredients': ingredients,
-                    'ratings': 5
+                    'ratings': 5,
+                    'num_ratings': 1
                 }
 
             alldata.append(item)

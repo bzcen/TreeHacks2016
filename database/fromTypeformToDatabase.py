@@ -40,7 +40,7 @@ def convert():
     with open("typeformResults.json") as typeform_file:
         form = json.load(typeform_file, parse_float = decimal.Decimal)
         if len(form['responses']) == 0:
-            print 'No new recipe entries.'
+            print 'No new recipes.',
             return
 
         for response in form['responses']:
@@ -67,7 +67,8 @@ def convert():
                     'steps': steps,
                     'current_step': 0,
                     'ingredients': ingredients,
-                    'ratings': 5
+                    'ratings': 5,
+                    'num_ratings': 1
                 }
             )
 
