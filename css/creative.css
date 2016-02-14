@@ -16,8 +16,8 @@ div#scrollable{
     height: 100%;
 }
 .recipe-list{
-    padding: 10vmin 10vmin 5vmin 10vmin;
-    margin: auto 5vmin;
+    padding: 10vmin 15vmin 5vmin 15vmin;
+    width: 80% !important;
     position: relative;
     z-index: -1;    
     opacity: 0.9;
