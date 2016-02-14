@@ -5,6 +5,9 @@ from boto3.dynamodb.conditions import Key, Attr
 import time
 from datetime import datetime
 from dateutil import tz
+import os
+import urllib
+from geoip import geolite2
 
 def convertUTCtoPST(timestring):
     # timestring of format: 2016-02-14 02:02:22
@@ -15,6 +18,28 @@ def convertUTCtoPST(timestring):
     utc = utc.replace(tzinfo=from_zone)
     pst = utc.astimezone(to_zone)
     return datetime.strftime(pst, '%Y-%m-%d %H:%M:%S')
+
+def updateReviewsDatabase(ip, timestamp, title, rating):
+    match = geolite2.lookup(ip)
+    if match is None:
+        print 'Error in updateReviewsDatabase(): cannot resolve ip address to location'
+        return
+    country = match.country
+    loc = match.location
+
+    dynamodb2 = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="https://dynamodb.us-east-1.amazonaws.com")
+    table2 = dynamodb2.Table('Reviews')
+    table2.put_item( Item = { 'ip': ip,
+                              'time': timestamp,
+                              'lat': loc[0],
+                              'long': loc[1],
+                              'country': country,
+                              'recipe': title,
+                              'rating': decimal.Decimal(5.5)
+                            }
+                    )
+    print '\nReview @ %s at time %s added to Reviews database' % (ip, time)
+    
 
 def convert(timestamp):
     #dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="http://localhost:8000")
@@ -30,6 +55,7 @@ def convert(timestamp):
             cols = row.split(',')
             #qtime = convertUTCtoPST(cols[7])
             qtime = cols[7]
+            print qtime, timestamp
             if qtime <= timestamp:
                 row = rf.readline()
                 continue
@@ -37,7 +63,11 @@ def convert(timestamp):
             # new data since last time stamp
             nodata = False
             title = cols[10]
+            user_ip = str(cols[5])
             user_rating = 6 - float(cols[11])
+
+            # update reviews database
+            updateReviewsDatabase(user_ip, qtime, title, user_rating)
 
             # get current rating
             response = table.query(KeyConditionExpression=Key('title').eq(title.lower()))
@@ -80,8 +110,13 @@ def convert(timestamp):
             print 'No new reviews.'
 
 if __name__ == "__main__":
-    convert(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %X\t'))
-
-
-        
+    argv = os.sys.argv
+    # correct argv looks like: ['fromQualtricsToDatabase.py', '2016-02-14', '10:19:38']
+    if len(argv) > 3:
+        print 'Usage: python fromQualtricsToDatabase.py <optional timestamp: 2016-02-14 10:19:38>'
+    elif len(argv) == 3:
+        timestamp = argv[1] + ' ' + argv[2]
+        convert(timestamp)
+    else:
+        convert(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %X\t'))
         

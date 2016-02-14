@@ -68,7 +68,9 @@ def convert():
                     'current_step': 0,
                     'ingredients': ingredients,
                     'ratings': 5,
-                    'num_ratings': 1
+                    'num_ratings': 1,
+                    'times_made': 0,
+                    'time_to_make': 30
                 }
             )
 

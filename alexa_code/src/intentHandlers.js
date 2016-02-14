@@ -43,7 +43,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                     }
                 }
         }, function (err, data) {
-            if (err || data === undefined) {
+            if (err || data.Item === undefined) {
                  console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
                  var text = 'I\'m sorry, no existing recipe for ' + recipeName + ' exists.';
                  response.tell(text);
@@ -56,7 +56,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                     //data.Items.forEach(function(item) {
                     //console.log("something was found");
                     storage.newGame(session).save(function () {
-                    var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
+                    var speechOutput = 'Ok. Let\'s make ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
                     var repromptText = 'Do you want to hear ingredients, begin cooking, or other?';
                     response.ask(speechOutput, repromptText);
                     });

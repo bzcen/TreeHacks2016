@@ -14,22 +14,23 @@ timestamp = time.time()
 while True:
     # format time
     time_formatted = datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %X\t')
-    print time_formatted,
-
+    #print time_formatted,
+    """
     # every minute (or longer), download from typeform potential entries
     with open('typeformResults.json', 'w') as wf:
         tf_response = urllib.urlopen(typeform_url + str(timestamp))
         wf.write(tf_response.read())
         tf_response.close()
-    fromTypeformToDatabase.convert()
-
+    os.system('python fromTypeformToDatabase.py') # fromTypeformToDatabase.convert()
+    """
     # every minute (or longer), check qualtrics for new incoming reviews
     with open('qualtricsResults.csv', 'w') as wf:
         ql_response = urllib.urlopen(qualtrics_url + str(time_formatted))
         wf.write(ql_response.read())
         ql_response.close()
-    fromQualtricsToDatabase.convert(time_formatted)
+    os.system('python fromQualtricsToDatabase.py ' + time_formatted) #fromQualtricsToDatabase.convert(time_formatted)
 
-    timestamp = int(time.time()) - 10  # minus 10 seconds just in case we miss something.
-    time.sleep(60)
+    timestamp = int(time.time())#  - 10  # minus 10 seconds just in case we miss something.
+    #time.sleep(60)
+    time.sleep(5)
     
