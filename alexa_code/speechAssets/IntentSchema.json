@@ -10,6 +10,15 @@
       ]
     },
     {
+      "intent": "RateLastIntent",
+      "slots": [
+        {
+          "name": "RatingValue",
+          "type": "LIST_OF_RATING_VALUES"
+        }
+      ]
+    },
+    {
       "intent": "NextStepIntent"
     },
     {

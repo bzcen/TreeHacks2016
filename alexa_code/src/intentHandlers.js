@@ -278,16 +278,16 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                     }else {
                         rating = data.Item.ratings.N;
                         var tag = "";
-                        if (rating === '5'){
-                            tag = "really great.";
-                        } else if (rating === '4'){
-                            tag = "pretty good.";
-                        } else if (rating === '3'){
-                            tag = "decent.";
-                        } else if (rating === '2'){
-                            tag = "average.";
-                        } else {
+                        if (parseFloat(rating) < 2){
                             tag = "not very good.";
+                        } else if (parseFloat(rating) < 3){
+                            tag = "decent.";
+                        } else if (parseFloat(rating) < 4){
+                            tag = "pretty good.";
+                        } else if (parseFloat(rating) < 5){
+                            tag = "really good.";
+                        } else {
+                            tag = "almost perfect.";
                         }
                         response.ask("Others think this " + id + " recipe is " + tag, "Do you want to hear ingredients, begin cooking, or other?");
 
@@ -443,6 +443,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                                 else {
                                     if (step >= total_steps){
                                         text += " Enjoy your " + id + "!";
+                                        text += " Please tell me how you rate this recipe from 1 to 5.";
                                         response.tell(text);
                                     } else {
                                     response.ask(text, "Do you want to continue?");
