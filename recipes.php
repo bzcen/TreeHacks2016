@@ -63,8 +63,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand page-scroll" href="index.html">Echo Chef</a>
+                <div class="navbar-brand recipe-list-header"><a href="#">RECIPE DATABASE</a></div>
             </div>
-            <div class="navbar-brand recipe-list-header"><a href="#">RECIPE DATABASE</a></div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
