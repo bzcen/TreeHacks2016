@@ -132,6 +132,13 @@ NewRecipeIntent can you tell me the recipe for {RecipeName}
 NewRecipeIntent can you give me the recipe for {RecipeName}
 
 RateLastIntent rate {RatingValue}
+RateLastIntent I give it a {RatingValue}
+RateLastIntent I give what I just cooked a {RatingValue}
+RateLastIntent rate {RatingValue} to what I just cooked
+RateLastIntent give a {RatingValue} to what I just cooked
 
 RateSpecificIntent rate {RecipeName} a {RatingValue}
+RateSpecificIntent give {RecipeName} a {RatingValue}
+RateSpecificIntent give a {RatingValue} to {RecipeName} recipe
+RateSpecificIntent give a {RatingValue} to {RecipeName}
 
