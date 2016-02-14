@@ -1,5 +1,5 @@
 # Echo Chef 
-## TreeHacks 2016 @ Stanford
+### TreeHacks 2016 @ Stanford
 
 #### http://echochef.net/
 
@@ -19,7 +19,7 @@ From your completion time of each recipe, to your most often used ingredients.
 * Qualtrics API
 * Responsive Site
 
-### Team
+#### Team
 * Brandon Cen
 * Cherrie Wang
 * Elizabeth Chu
