@@ -55,7 +55,9 @@ var storage = (function () {
                     },
                     Data: {
                         S: JSON.stringify(this.data)
-                    }
+                    },
+                    Steps: this.step
+
                 }
             }, function (err, data) {
                 if (err) {

@@ -14,17 +14,110 @@ var textHelper = require('./textHelper'),
 
 var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.NewRecipeIntent = function (intent, session, response) {
+        var AWS = require("aws-sdk");
+
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+
+
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
         // TASK: reconfigure the "new game" for our own table
 
         // get the recipe from the intent
+
+        
         var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
-        storage.newGame(session).save(function () {
-            var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
-            var repromptText = 'Do you want to hear ingredients, begin cooking, or other?';
-            response.ask(speechOutput, repromptText);
+
+        if (!recipeName) {
+            response.ask('OK. What do you want to cook today?', 'What do you want to cook today?');
+            return;
+        }
+        
+        /*
+
+        */
+        
+
+
+        // query the recipeName from the DynamoDB database
+        dynamodb.getItem({
+                TableName: 'Recipes',
+                Key: {
+                    title: {
+                        S: recipeName
+                    },
+                }
+        }, function (err, data) {
+            if (err || data === undefined) {
+                 console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                 var text = 'I\'m sorry, no existing recipe for ' + recipeName + ' exists.';
+                 response.tell(text);
+                 return;
+
+            } else {
+                    console.log("Query succeeded.");
+                    console.log(data);
+                    console.log(data.Item.actual_title.S);
+                    //data.Items.forEach(function(item) {
+                    //console.log("something was found");
+                    storage.newGame(session).save(function () {
+                    var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
+                    var repromptText = 'Do you want to hear ingredients, begin cooking, or other?';
+                    response.ask(speechOutput, repromptText);
+                    });
+
+        
+            }
+        });
+
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+            } else {
+                // set the state holder to be the new recipe name
+                console.log("found the item");
+                console.log(data);
+
+                dynamodb.putItem({
+                    TableName: 'RecipeState',
+                    Item: {
+                        Name: {
+                            S: 'test'
+                        },
+                        Recipe: {
+                            S: recipeName
+                        },
+                        Step: {
+                            N: '1'
+                        }
+
+                    }
+                }, function (err, data) {
+                    if (err){
+                        console.log(err);
+                    }
+                    
+                });
+                console.log(data);
+            }
         });
         return;
+
+
+        
 
 
 
@@ -55,48 +148,275 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                 }
             });
         });
-    };
+    }
 
     // TASK: actually link this to database, pulling
     intentHandlers.ListIngredientsIntent = function (intent, session, response) {
 
-        response.ask('The ingredients are ', 'Do you want to hear ingredients, begin cooking, or other?');
-        return;
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+        var id;
+        var list;
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+                id = data.Item.Recipe.S;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
+
+                    }else {
+                        list = data.Item.ingredients.L;
+                        console.log(list);
+                        var text = "The ingredients are ";
+
+                        var length = list.length;
+                        for (var i = 0; i < length; i++){
+                            text += list[i].S + ", ";
+                        }
+
+                        response.ask(text + ".", "Do you want to hear ingredients, begin cooking, or other?");
+
+
+                    }
+                });
+
+            }
+        });
+
+
+
     }
 
     intentHandlers.AskCaloriesIntent = function (intent, session, response) {
-        var calories = 100;
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+        var id;
+        var calories = 1000;
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+                id = data.Item.Recipe.S;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
 
-        response.ask("This recipe is " + calories.toString() + " calories per serving.", "Do you want to hear ingredients, begin cooking, or other?");
+                    }else {
+                        calories = data.Item.calories.N;
+                        response.ask("This " + id + " recipe is " + calories.toString() + " calories per serving.", "Do you want to hear ingredients, begin cooking, or other?");
+                    }
+                });
+
+            }
+        });
+
+
+       
     }
 
     intentHandlers.AskRatingIntent = function (intent, session, response) {
-        var rating = 5;
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+        var id;
+        var rating = 0;
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+                id = data.Item.Recipe.S;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
 
-        if (rating === 5) {
-            response.ask("Previous people have said this recipe is great!", "Do you want to hear ingredients, begin cooking, or other?");
-        }
+                    }else {
+                        rating = data.Item.ratings.N;
+                        var tag = "";
+                        if (rating === '5'){
+                            tag = "really great.";
+                        } else if (rating === '4'){
+                            tag = "pretty good.";
+                        } else if (rating === '3'){
+                            tag = "decent.";
+                        } else if (rating === '2'){
+                            tag = "average.";
+                        } else {
+                            tag = "not very good.";
+                        }
+                        response.ask("Others think this " + id + " recipe is " + tag, "Do you want to hear ingredients, begin cooking, or other?");
+
+                    }
+                });
+
+            }
+        });
     }
 
     intentHandlers.AskNumServingsIntent = function (intent, session, response) {
-        var servings = 5;
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+        var id;
+        var servings = 100;
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+                id = data.Item.Recipe.S;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
 
-        response.ask("This recipe is designed for " + servings.toString() + " servings.", "Do you want to hear ingredients, begin cooking, or other?");
+                    }else {
+                        servings = data.Item.servings.N;
+                        response.ask("This " + id + " recipe is designed for " + servings.toString() + " servings.", "Do you want to hear ingredients, begin cooking, or other?");
+
+                    }
+                });
+
+            }
+        });
+
     }
 
 
     intentHandlers.NextStepIntent = function (intent, session, response) {
 
+
+
+        /*
         storage.loadGame(session, function (currentGame) {
 
-            currentGame.data.step = currentGame.data.step + 1;
-            response.ask('Next step.', 'Next step.');
-            currentGame.save(function (){
+            //currentGame.data.step = currentGame.data.step + 1;
+            //response.ask('Next step.', 'Next step.');
+            //currentGame.save();
 
-            });
+
+
             return;
             
         });
+*/
     }
 
 
