@@ -43,7 +43,7 @@ dynamodb.getItem({
             } else {
                 ingredients = data.Item.ingredients.L;
                 console.log(ingredients);
-                var length = list.length;
+                var length = ingredients.length;
 		// for each ingredient, add the amount to Ingredients Table
                 for (var i = 0; i < length; i++){
 		    dynamodb.getItem({

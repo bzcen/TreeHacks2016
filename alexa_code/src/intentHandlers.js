@@ -356,12 +356,13 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
 
     intentHandlers.NextStepIntent = function (intent, session, response) {
-
-
         var step = 0;
         var id;
         var total_steps;
         var text;
+	var ingredients; // update ingredients table
+	var categories; // update categories table
+	var value;
 
         var AWS = require("aws-sdk");
         AWS.config.update({
@@ -410,9 +411,102 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                     }else {
                         total_steps = data.Item.steps.L.length;
                         var list = data.Item.steps.L;
-                        
+                        ingredients = data.Item.ingredients.L;
+			categories = data.Item.categories.L;
 
                         if (step >= total_steps){
+			    // update ingredients
+			    var length = ingredients.length;
+			    // for each ingredient, add the amount to Ingredients Table
+			    for (var i = 0; i < length; i++){
+				dynamodb.getItem({
+				    TableName: 'Ingredients',
+				    Key: {
+					Name: {
+					    S: ingredients[i].S
+					}
+				    }
+				}, function (err, data){
+				    console.log(data);
+				    if (err){
+					console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+					return;
+				    }
+				    if (data === undefined){
+					console.log("unable to find the item");
+					return;
+				    } else {
+					console.log("found the ingredient");
+					id = data.Item.ingredient.S;
+					console.log(id);
+
+					// update ingredient value
+					value = data.Item.value.N;
+					value++;
+					dynamodb.putItem({
+					    TableName: 'Ingredients',
+					    Item: {
+						Name: {
+						    S: ingredient
+						},
+						value: {
+						    N: value
+						}
+					    }
+					}, function(err, data) {
+					    if (err){
+						console.log(err);
+					    }
+					});
+				    }
+				});
+			    }
+			    // update categories
+			    length = categories.length;
+			    // for each ingredient, add the amount to Ingredients Table
+			    for (var i = 0; i < length; i++){
+				dynamodb.getItem({
+				    TableName: 'Categories',
+				    Key: {
+					Name: {
+					    S: categories[i].S
+					}
+				    }
+				}, function (err, data){
+				    console.log(data);
+				    if (err){
+					console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+					return;
+				    }
+				    if (data === undefined){
+					console.log("unable to find the item");
+					return;
+				    } else {
+					console.log("found the category");
+					id = data.Item.category.S;
+					console.log(id);
+
+					// update ingredient value
+					value = data.Item.value.N;
+					value++;
+					dynamodb.putItem({
+					    TableName: 'Categories',
+					    Item: {
+						Name: {
+						    S: category
+						},
+						value: {
+						    N: value
+						}
+					    }
+					}, function(err, data) {
+					    if (err){
+						console.log(err);
+					    }
+					});
+				    }
+				});
+			    }
                             response.tell("It looks like you already finished the recipe! Enjoy!");
                             return;
                         }
@@ -442,6 +536,98 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                                 }
                                 else {
                                     if (step >= total_steps){
+					// update ingredients
+					var length = ingredients.length;
+					// for each ingredient, add the amount to Ingredients Table
+					for (var i = 0; i < length; i++){
+					    dynamodb.getItem({
+						TableName: 'Ingredients',
+						Key: {
+						    Name: {
+							S: ingredients[i].S
+						    }
+						}
+					    }, function (err, data){
+						console.log(data);
+						if (err){
+						    console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+						    return;
+						}
+						if (data === undefined){
+						    console.log("unable to find the item");
+						    return;
+						} else {
+						    console.log("found the ingredient");
+						    id = data.Item.ingredient.S;
+						    console.log(id);
+
+						    // update ingredient value
+						    value = data.Item.value.N;
+						    value++;
+						    dynamodb.putItem({
+							TableName: 'Ingredients',
+							Item: {
+							    Name: {
+								S: ingredient
+							    },
+							    value: {
+								N: value
+							    }
+							}
+						    }, function(err, data) {
+							if (err){
+							    console.log(err);
+							}
+						    });
+						}
+					    });
+					}
+					// update categories
+					length = categories.length;
+					// for each ingredient, add the amount to Ingredients Table
+					for (var i = 0; i < length; i++){
+					    dynamodb.getItem({
+						TableName: 'Categories',
+						Key: {
+						    Name: {
+							S: categories[i].S
+						    }
+						}
+					    }, function (err, data){
+						console.log(data);
+						if (err){
+						    console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+						    return;
+						}
+						if (data === undefined){
+						    console.log("unable to find the item");
+						    return;
+						} else {
+						    console.log("found the category");
+						    id = data.Item.category.S;
+						    console.log(id);
+
+						    // update ingredient value
+						    value = data.Item.value.N;
+						    value++;
+						    dynamodb.putItem({
+							TableName: 'Categories',
+							Item: {
+							    Name: {
+								S: category
+							    },
+							    value: {
+								N: value
+							    }
+							}
+						    }, function(err, data) {
+							if (err){
+							    console.log(err);
+							}
+						    });
+						}
+					    });
+					}
                                         text += " Enjoy your " + id + "!";
                                         text += " Please tell me how you rate this recipe from 1 to 5.";
                                         response.tell(text);
