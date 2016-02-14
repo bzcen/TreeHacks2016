@@ -10,18 +10,10 @@ table = dynamodb.create_table(
                     'AttributeName': 'title',
                     'KeyType': 'HASH'  # Partition key
                 },
-                {
-                    'AttributeName': 'creator',
-                    'KeyType': 'RANGE'  # Sort Key
-                },
                 ],
             AttributeDefinitions=[
                 {
                     'AttributeName': 'title',
-                    'AttributeType': 'S'
-                },
-                {
-                    'AttributeName': 'creator',
                     'AttributeType': 'S'
                 },
                 ],

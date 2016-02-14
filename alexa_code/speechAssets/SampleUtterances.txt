@@ -414,6 +414,8 @@ ListIngredientsIntent what should I buy
 ListIngredientsIntent what should I get
 ListIngredientsIntent repeat the ingredients
 ListIngredientsIntent repeat ingredients
+ListIngredientsIntent read the ingredients
+ListIngredientsIntent recite the ingredients
 
 NextStepIntent next
 NextStepIntent next step
@@ -437,6 +439,8 @@ NextStepIntent next process
 NextStepIntent what do I do now
 NextStepIntent now what
 NextStepIntent okay, now what
+NextStepIntent state the next step
+NextStepIntent say the next step
 
 AskCaloriesIntent calories
 AskCaloriesIntent how many calories is it
@@ -447,7 +451,13 @@ AskCaloriesIntent tell me how many calories
 AskCaloriesIntent how fat is it
 AskCaloriesIntent I will hear the calories
 AskCaloriesIntent how many calories is this
-AskCaloriesIntent 
+AskCaloriesIntent how many calories are in it
+AskCaloriesIntent give me the calories
+AskCaloriesIntent say the calories
+AskCaloriesIntent state the calories
+AskCaloriesIntent speak the calories
+AskCaloriesIntent recite the calories
+
 
 AskNumServingsIntent servings
 
