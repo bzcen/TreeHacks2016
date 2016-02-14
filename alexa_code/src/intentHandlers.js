@@ -117,6 +117,8 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         });
         var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
         var id;
+        var num_ratings;
+        var curr_rating;
         var r = intent.slots.RatingValue.value;
         dynamodb.getItem({
             TableName: 'RecipeState',
@@ -138,7 +140,59 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                 console.log("found the item");
                 id = data.Item.Recipe.S;
 
-                response.tell("Ok, I recorded your rating of the " + id + " as a " + r.toString());
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
+
+                    }else {
+                        // total_ratings subject to change
+                        curr_rating = data.Item.ratings.N;
+                        num_ratings = data.Item.total_ratings.N;
+
+                        var new_rating = (curr_rating*num_ratings) + r;
+                        num_ratings = num_ratings + 1.0;
+                        new_rating = new_rating / num_ratings;
+                        new_rating = new_rating.toFixed(2);
+                        console.log(new_rating);
+
+                        var docClient = new AWS.DynamoDB.DocumentClient();
+
+                        var params = {
+                            TableName: 'Recipes',
+                            Key:{
+                                title: id
+                            },
+                            UpdateExpression: "set ratings = :r, total_ratings = :t",
+                            ExpressionAttributeValues:{
+                                ":r": new_rating,
+                                ":t": num_ratings
+                            },
+                            ReturnValues:"UPDATED_NEW"
+                        };
+
+                        console.log("Updating the item...");
+                        docClient.update(params, function(err, data) {
+                            if (err) {
+                                console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                            } else {
+                                console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                                response.tell("Ok, I noted your rating of the " + id + " as a " + r.toString());
+                            }
+                        });
+                    }
+                });
+
+                
             }
         });
 
