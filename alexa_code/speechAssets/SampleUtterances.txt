@@ -18,6 +18,7 @@ ListIngredientsIntent recite the ingredients
 
 NextStepIntent next
 NextStepIntent next step
+NextStepIntent next instruction
 NextStepIntent okay
 NextStepIntent I'm done
 NextStepIntent I am done
@@ -40,6 +41,11 @@ NextStepIntent now what
 NextStepIntent okay now what
 NextStepIntent state the next step
 NextStepIntent say the next step
+NextStepIntent alright next
+NextStepIntent did that
+NextStepIntent can I have the next step
+NextStepIntent instruct me
+
 
 AskCaloriesIntent calories
 AskCaloriesIntent how many calories is it
@@ -59,12 +65,16 @@ AskCaloriesIntent recite the calories
 
 
 AskNumServingsIntent servings
+AskNumServingsIntent serving size
 AskNumServingsIntent how many people will be served
 AskNumServingsIntent number of servings
 AskNumServingsIntent how many servings
 AskNumServingsIntent how much will this cook
+AskNumServingsIntent how many servings will this make
 AskNumServingsIntent how many people will be fed
 AskNumServingsIntent how many will this feed
+AskNumServingsIntent can I feed four people
+AskNumServingsIntent will this be enough for
 
 AskRatingIntent rating
 AskRatingIntent how good is this recipe
@@ -73,17 +83,32 @@ AskRatingIntent what is the rating for this recipe
 AskRatingIntent what is the rating
 AskRatingIntent how good is this
 AskRatingIntent is this good
+AskRatingIntent is this recipe good
+AskRatingIntent do you like this recipe
+AskRatingIntent should I make this
 
 RepeatStepIntent can you repeat that
 RepeatStepIntent repeat
 RepeatStepIntent what was that again
 RepeatStepIntent what
+RepeatStepIntent do what
+RepeatStepIntent didn't catch that
 RepeatStepIntent can you say that again
 RepeatStepIntent repeat that again
 RepeatStepIntent say that step again
 RepeatStepIntent say that again
 RepeatStepIntent repeat that
+RepeatStepIntent wait repeat that
+RepeatStepIntent say it one more time
+RepeatStepIntent repeat that one more time
 
+PreviousStepIntent previous
+PreviousStepIntent previous step
+PreviousStepIntent go back
+PreviousStepIntent say the last step
+PreviousStepIntent say the previous step
+PreviousStepIntent repeat the last step
+PreviousStepIntent repeat the previous step
 PreviousStepIntent previous
 PreviousStepIntent can you go back a step
 PreviousStepIntent can you go to the previous step
@@ -93,7 +118,16 @@ PreviousStepIntent can you go back one step
 NewRecipeIntent cook {RecipeName}
 NewRecipeIntent begin a game {RecipeName}
 NewRecipeIntent cook the recipe to {RecipeName}
+NewRecipeIntent start the recipe for {RecipeName}
+NewRecipeIntent begin the recipe for {RecipeName}
 NewRecipeIntent give me the recipe to {RecipeName}
 NewRecipeIntent give me a recipe for {RecipeName}
 NewRecipeIntent give me the recipe for {RecipeName}
+NewRecipeIntent let's cook {RecipeName}
+NewRecipeIntent let's make {RecipeName}
+NewRecipeIntent I want to cook {RecipeName}
+NewRecipeIntent I want to make {RecipeName}
+NewRecipeIntent can I have the recipe for {RecipeName}
+NewRecipeIntent can you tell me the recipe for {RecipeName}
+NewRecipeIntent can you give me the recipe for {RecipeName}
 
