@@ -34,12 +34,6 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             return;
         }
         
-        /*
-
-        */
-        
-
-
         // query the recipeName from the DynamoDB database
         dynamodb.getItem({
                 TableName: 'Recipes',
@@ -178,9 +172,6 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
             }
         });
-
-
-
     }
 
     intentHandlers.AskCaloriesIntent = function (intent, session, response) {
@@ -417,16 +408,19 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                         console.log("unable to find the item");
 
                     }else {
-                        total_steps = data.Item.steps.length;
+                        total_steps = data.Item.steps.L.length;
                         var list = data.Item.steps.L;
+                        
+
+                        if (step >= total_steps){
+                            response.tell("It looks like you already finished the recipe! Enjoy!");
+                            return;
+                        }
+
                         text = list[step].S;
 
                         step++;
-                        if (step >= total_steps){
-                            text += " Enjoy your " + id + "!";
-                            response.tell(text);
-                            return;
-                        } else {
+                        
 
                             dynamodb.putItem({
                             TableName: 'RecipeState',
@@ -445,18 +439,103 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                             }, function (err, data) {
                                 if (err){
                                 console.log(err);
-                            }
-                            response.ask(text, "Do you want to continue?");
+                                }
+                                else {
+                                    if (step >= total_steps){
+                                        text += " Enjoy your " + id + "!";
+                                        response.tell(text);
+                                    } else {
+                                    response.ask(text, "Do you want to continue?");
+                                    }
+                                }
                             
                             });
 
-                        }
+                        
 
                     }
                 });
 
             }
         });
+    }
+
+    intentHandlers.RepeatStepIntent = function (intent, session, response) {
+
+        var step = 0;
+        var id;
+        var total_steps;
+        var text;
+
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+
+                id = data.Item.Recipe.S;
+                step = data.Item.Step.N;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
+
+                    }else {
+                        total_steps = data.Item.steps.L.length;
+
+                        step--;
+
+                        if (step < 0 || step >= total_steps){
+                            response.ask("It looks like you haven't started a recipe yet. What would you like to cook?", "What would you like to cook?");
+                            return;
+                        } else {
+                            var list = data.Item.steps.L;
+                        text = list[step].S;
+
+                        step++;
+                        if (step >= total_steps){
+                            text += " Enjoy your " + id + "!";
+                        }
+                        response.tell(text);
+                        return;
+                        }
+                    }
+                });
+
+            }
+        });
+
     }
 
 
