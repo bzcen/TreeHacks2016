@@ -80,32 +80,39 @@ div.bar-wrap div.bar:after {
   padding: 10px;
 }
 div.bar-wrap div.bar.blue {
-  background-color: #61a7c4;
-  border-bottom: 3px solid #4290b0;
+  background-color: #ff8c1a;
+  border-bottom: 3px solid #ff8000;
 }
 div.bar-wrap div.bar.blue:after {
   color: #FFF;
 }
 div.bar-wrap div.bar.green {
-  background-color: #61c471;
-  border-bottom: 3px solid #42b054;
+  background-color: #ffbf00;
+  border-bottom: 3px solid #e6ac00;
 }
 div.bar-wrap div.bar.green:after {
   color: #FFF;
 }
 div.bar-wrap div.bar.red {
-  background-color: #c46161;
-  border-bottom: 3px solid #b04242;
+  background-color: #ffa31a;
+  border-bottom: 3px solid #ff9900;
 }
 div.bar-wrap div.bar.red:after {
   color: #FFF;
 }
 div.bar-wrap div.bar.purple {
-  background-color: #a461c4;
-  border-bottom: 3px solid #8d42b0;
+  background-color: #ff8533;
+  border-bottom: 3px solid #ff751a;
 }
 div.bar-wrap div.bar.purple:after {
   color: #FFF;
 }
 
-#graph {border: 1px solid #111;}
+#side-menu a {
+  color: #f2800d;
+}
+
+a.dropdown-toggle {
+  color: #f2800d;
+}
+

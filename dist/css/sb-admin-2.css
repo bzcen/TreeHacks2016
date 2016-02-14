@@ -149,23 +149,23 @@ body {
 }
 
 .btn-primary.btn-outline {
-    color: #428bca;
+    color: #fe9934;
 }
 
 .btn-success.btn-outline {
-    color: #5cb85c;
+    color: #fe9934;
 }
 
 .btn-info.btn-outline {
-    color: #5bc0de;
+    color: #fe9934;
 }
 
 .btn-warning.btn-outline {
-    color: #f0ad4e;
+    color: #fe9934;
 }
 
 .btn-danger.btn-outline {
-    color: #d9534f;
+    color: #fe9934;
 }
 
 .btn-primary.btn-outline:hover,

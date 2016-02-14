@@ -4,10 +4,11 @@ var   w = 1000,
  
 
 var palette = {
-      "lightgray": "#f1f3f3",
+      "lightgray": "#e3e8e8",
       "gray": "#708284",
       "mediumgray": "#536870",
-      "blue": "#3B757F"
+      "blue": "#3B757F",
+      "white": "#fff"
   }
 
 var colors = d3.scale.category20();
@@ -130,7 +131,7 @@ var force = d3.layout.force()
                   if ( i > 0 && d.value < 10 ) {
                         return palette.mediumgray;
                   } else if ( i > 0 && d.value >10 ) {
-                        return palette.lightgray;
+                        return palette.white;
                   } else {
                         return palette.blue;
                   }
