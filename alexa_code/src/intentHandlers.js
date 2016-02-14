@@ -27,7 +27,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         // get the recipe from the intent
 
         
-        var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
+        var recipeName = intent.slots.RecipeName.value;
 
         if (!recipeName) {
             response.ask('OK. What do you want to cook today?', 'What do you want to cook today?');
@@ -109,6 +109,78 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         return;
     }
 
+    intentHandlers.RateSpecificIntent = function (intent, session, response) {
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+        var id = intent.slots.RecipeName.value;
+        console.log(id);
+        var total_ratings;
+        var curr_rating;
+        var r = intent.slots.RatingValue.value;
+        r = parseInt(r);
+
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    console.log(data);
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
+
+                    }else {
+                        curr_rating = data.Item.ratings.N;
+                        //curr_rating = parseFloat(curr_rating);
+                        console.log(curr_rating);
+                        total_ratings = data.Item.num_ratings.N;
+                        console.log(r);
+
+                        var new_rating = (curr_rating*total_ratings) + r;
+                        total_ratings++;
+                        new_rating = new_rating / total_ratings;
+
+                        console.log(total_ratings);
+                        console.log(new_rating);
+
+                        var docClient = new AWS.DynamoDB.DocumentClient();
+
+                        var params = {
+                            TableName: 'Recipes',
+                            Key:{
+                                title: id
+                            },
+                            UpdateExpression: "set ratings = :r, num_ratings = :t",
+                            ExpressionAttributeValues:{
+                                ":r": new_rating,
+                                ":t": total_ratings
+                            },
+                            ReturnValues:"UPDATED_NEW"
+                        };
+
+                        console.log("Updating the item...");
+                        docClient.update(params, function(err, data) {
+                            if (err) {
+                                console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+                            } else {
+                                console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+                                response.tell("Ok, I noted your rating of the " + id + " as a " + r.toString());
+                            }
+                        });
+                    }
+                });
+
+    }
+
     intentHandlers.RateLastIntent = function (intent, session, response) {
         var AWS = require("aws-sdk");
         AWS.config.update({
@@ -117,9 +189,10 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         });
         var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
         var id;
-        var num_ratings;
+        var total_ratings;
         var curr_rating;
         var r = intent.slots.RatingValue.value;
+        r = parseInt(r);
         dynamodb.getItem({
             TableName: 'RecipeState',
             Key: {
@@ -147,7 +220,9 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                             S: id
                         }
                     }
+
                 }, function (err, data){
+                    console.log(data);
                     if (err){
                         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
                     }
@@ -157,12 +232,16 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                     }else {
                         // total_ratings subject to change
                         curr_rating = data.Item.ratings.N;
-                        num_ratings = data.Item.total_ratings.N;
+                        //curr_rating = parseFloat(curr_rating);
+                        console.log(curr_rating);
+                        total_ratings = data.Item.num_ratings.N;
+                        console.log(r);
 
-                        var new_rating = (curr_rating*num_ratings) + r;
-                        num_ratings = num_ratings + 1.0;
-                        new_rating = new_rating / num_ratings;
-                        new_rating = new_rating.toFixed(2);
+                        var new_rating = (curr_rating*total_ratings) + r;
+                        total_ratings++;
+                        new_rating = new_rating / total_ratings;
+
+                        console.log(total_ratings);
                         console.log(new_rating);
 
                         var docClient = new AWS.DynamoDB.DocumentClient();
@@ -172,10 +251,10 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                             Key:{
                                 title: id
                             },
-                            UpdateExpression: "set ratings = :r, total_ratings = :t",
+                            UpdateExpression: "set ratings = :r, num_ratings = :t",
                             ExpressionAttributeValues:{
                                 ":r": new_rating,
-                                ":t": num_ratings
+                                ":t": total_ratings
                             },
                             ReturnValues:"UPDATED_NEW"
                         };
@@ -365,7 +444,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                         console.log("unable to find the item");
 
                     }else {
-                        rating = data.Item.ratings.N;
+                        rating = data.Item.ratings.S;
                         var tag = "";
                         if (parseFloat(rating) < 2){
                             tag = "not very good.";

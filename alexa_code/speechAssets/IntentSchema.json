@@ -19,6 +19,19 @@
       ]
     },
     {
+      "intent": "RateSpecificIntent",
+      "slots": [
+        {
+          "name": "RatingValue",
+          "type": "LIST_OF_RATING_VALUES"
+        },
+        {
+          "name": "RecipeName",
+          "type": "LIST_OF_PLAYER_NAMES"
+        }
+      ]
+    },
+    {
       "intent": "NextStepIntent"
     },
     {

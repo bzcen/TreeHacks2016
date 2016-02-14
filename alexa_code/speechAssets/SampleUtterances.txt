@@ -131,3 +131,7 @@ NewRecipeIntent can I have the recipe for {RecipeName}
 NewRecipeIntent can you tell me the recipe for {RecipeName}
 NewRecipeIntent can you give me the recipe for {RecipeName}
 
+RateLastIntent rate {RatingValue}
+
+RateSpecificIntent rate {RecipeName} a {RatingValue}
+
