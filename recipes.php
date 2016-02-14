@@ -139,6 +139,9 @@
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
                         </ol>
+                        <h5>
+                            Rating: <?php echo $value['ratings']['N']; ?> of 5.0
+                        </h5>
                     </div>
                 </div>          
                 <br /><hr class="full" /><br />            
