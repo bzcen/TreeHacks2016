@@ -465,3 +465,5 @@ AskRatingIntent rating
 
 RepeatStepIntent can you repeat that
 RepeatStepIntent repeat
+
+PreviousStepIntent previous

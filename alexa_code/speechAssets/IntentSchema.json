@@ -16,6 +16,9 @@
       "intent": "RepeatStepIntent"
     },
     {
+      "intent": "PreviousStepIntent"
+    },
+    {
       "intent": "AskCaloriesIntent"
     },
     {
