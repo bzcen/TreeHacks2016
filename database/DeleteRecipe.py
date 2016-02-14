@@ -18,14 +18,14 @@ dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url="htt
 table = dynamodb.Table('Recipes')
 
 title = "pizza"
-creator = "amy"
+#creator = "amy"
 
 print("Attempting a delete...")
 
 response = table.delete_item(
     Key={
         'title': title,
-        'creator': creator
+        #'creator': creator
     }
 )
 
