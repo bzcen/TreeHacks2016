@@ -481,6 +481,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                                 }
                                 else {
                                     if (step >= total_steps){
+
                     /*
 					// update ingredients
 					var length = ingredients.length;
@@ -567,14 +568,16 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 							    category: {
 								    S: category_label 
 							    },
-							    value: {
+							    quantity: {
 								    N: value.toString()
 							    }
 							}
 						    }, function(err, data) {
 							if (err){
 							    console.log(err);
-							}
+							} else {
+                                text += "";
+                            }
 						    });
 						}
 					    });
