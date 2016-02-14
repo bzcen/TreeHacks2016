@@ -26,7 +26,7 @@ div#scrollable{
 .recipe-list h4
 {
     margin-top: 3vmin;
-    color: #f05f40;
+    color: #f05f40 !important;
 }
 #recipe-title{
     color: #febf3e;

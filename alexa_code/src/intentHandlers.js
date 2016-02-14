@@ -24,8 +24,6 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
         var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
-        // TASK: reconfigure the "new game" for our own table
-
         // get the recipe from the intent
 
         
@@ -101,7 +99,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                             S: recipeName
                         },
                         Step: {
-                            N: '1'
+                            N: '0'
                         }
 
                     }
@@ -115,42 +113,8 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             }
         });
         return;
-
-
-        
-
-
-
-
-        //reset scores for all existing players
-        storage.loadGame(session, function (currentGame) {
-            if (currentGame.data.players.length === 0) {
-                response.ask('New game started. Who\'s your first player?',
-                    'Please tell me who\'s your first player?');
-                return;
-            }
-            currentGame.data.players.forEach(function (player) {
-                currentGame.data.scores[player] = 0;
-            });
-            currentGame.save(function () {
-                var speechOutput = 'New game started with '
-                    + currentGame.data.players.length + ' existing player';
-                if (currentGame.data.players.length > 1) {
-                    speechOutput += 's';
-                }
-                speechOutput += '.';
-                if (skillContext.needMoreHelp) {
-                    speechOutput += '. You can give a player points, add another player, reset all players or exit. What would you like?';
-                    var repromptText = 'You can give a player points, add another player, reset all players or exit. What would you like?';
-                    response.ask(speechOutput, repromptText);
-                } else {
-                    response.tell(speechOutput);
-                }
-            });
-        });
     }
 
-    // TASK: actually link this to database, pulling
     intentHandlers.ListIngredientsIntent = function (intent, session, response) {
 
         var AWS = require("aws-sdk");
@@ -455,7 +419,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                     }else {
                         total_steps = data.Item.steps.length;
                         var list = data.Item.steps.L;
-                        text = list[step-1].S;
+                        text = list[step].S;
 
                         step++;
                         if (step >= total_steps){
@@ -473,20 +437,18 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                             Recipe: {
                                 S: id
                             },
-                            Step: {
-                                N: step.toString()
+                                Step: {
+                                    N: step.toString()
+                                }
+
+                                }
+                            }, function (err, data) {
+                                if (err){
+                                console.log(err);
                             }
-
-                    }
-                }, function (err, data) {
-                    if (err){
-                        console.log(err);
-                    }
-                    response.ask(text, "Do you want to continue?");
-                    
-                });
-
+                            response.ask(text, "Do you want to continue?");
                             
+                            });
 
                         }
 
@@ -495,20 +457,6 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
             }
         });
-
-        /*
-        storage.loadGame(session, function (currentGame) {
-
-            //currentGame.data.step = currentGame.data.step + 1;
-            //response.ask('Next step.', 'Next step.');
-            //currentGame.save();
-
-
-
-            return;
-            
-        });
-*/
     }
 
 

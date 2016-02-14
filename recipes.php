@@ -16,17 +16,7 @@
 
     $response = $dynamodb->scan([
         'TableName' => 'Recipes'
-    ]);
-
-    foreach ($response['Items'] as $key => $value) {
-        echo 'Title: ' . $value['title']['S'] . "\n";
-        echo 'Calories: ' . $value['calories']['N'] . "\n";
-        echo 'Servings: ' . $value['servings']['N'] . "\n";
-        echo 'Categories: ' . $value['categories']['S'] . "\n";
-        echo 'Steps: ' . $value['steps']['SS'] . "\n";
-        echo 'Ingredients: ' . $value['ingredients']['SS'] . "\n";
-        echo "\n";
-    }
+    ]);    
 ?>
 <html lang="en">
 <head>
@@ -105,37 +95,48 @@
     
     <div class="scrollable">
         <div class="recipe-list container bg-dark">
-            <div class="row">
-                <div class="col-lg-4 text-left">
-                    <h2 id="recipe-title" class="section-heading">Recipe Name</h2>    
-                    <h5 id="category">CATEGORIES</h5>
-                    <h4>Ingredients</h4>
-                    <ul>
-                        <li>
-                            2 Eggs
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-8 text-left">                           
-                    <h4 style="margin-top:0">Step by Step Instructions</h4>
-                    <h5>Makes <span id="servings"></span> servings. <span id="calories"></span> calories per serving.</h5> 
-                    <ol>
-                        <li>
-                            Heat oven
-                        </li>
-
-                        <li>
-                            Make cookies
-                        </li>
-                    </ol>
-                </div>
-            </div>          
-            
-            <br /><hr class="full" /><br />
-            
+            <?php foreach ($response['Items'] as $key => $value): ?>    
+                <div class="row">
+                    <div class="col-lg-4 text-left">
+                        <h2 id="recipe-title" class="section-heading">
+                            <?php echo $value['actual_title']['S']; ?>
+                        </h2>    
+                        <h5 id="category">
+                            fgfg <?php echo $value['categories'][0][0]['S']; ?>
+                        </h5>
+                        <h4>Ingredients</h4>
+                        <ul>
+                            <?php foreach ($value['ingredients'] as $iValue): ?>
+                                <?php foreach ($iValue as $i): ?>        
+                                    <li>
+                                        <?php echo $i['S']; ?>       
+                                    </li>                            
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <div class="col-lg-8 text-left">                           
+                        <h4 style="margin-top:0">Step by Step Instructions</h4>
+                        <h5>
+                            Makes <?php echo $value['servings']['N']; ?> servings. 
+                            <?php echo $value['calories']['N']; ?> calories per serving.
+                        </h5> 
+                        <ol>
+                            <?php foreach ($value['steps'] as $sValue): ?>
+                                <?php foreach ($sValue as $s): ?>
+                                <li>
+                                    <?php echo $s['S']; ?>
+                                </li>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </ol>
+                    </div>
+                </div>          
+                <br /><hr class="full" /><br />            
+            <?php endforeach; ?>
         </div>
     </div>
-
+    
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
