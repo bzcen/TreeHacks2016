@@ -14,17 +14,110 @@ var textHelper = require('./textHelper'),
 
 var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.NewRecipeIntent = function (intent, session, response) {
+        var AWS = require("aws-sdk");
+
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+
+
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
         // TASK: reconfigure the "new game" for our own table
 
         // get the recipe from the intent
+
+        
         var recipeName = textHelper.getRecipeName(intent.slots.RecipeName.value);
-        storage.newGame(session).save(function () {
-            var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
-            var repromptText = 'Do you want to hear ingredients, begin cooking, or other?';
-            response.ask(speechOutput, repromptText);
+
+        if (!recipeName) {
+            response.ask('OK. What do you want to cook today?', 'What do you want to cook today?');
+            return;
+        }
+        
+        /*
+
+        */
+        
+
+
+        // query the recipeName from the DynamoDB database
+        dynamodb.getItem({
+                TableName: 'Recipes',
+                Key: {
+                    title: {
+                        S: recipeName
+                    },
+                }
+        }, function (err, data) {
+            if (err || data === undefined) {
+                 console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                 var text = 'I\'m sorry, no existing recipe for ' + recipeName + ' exists.';
+                 response.tell(text);
+                 return;
+
+            } else {
+                    console.log("Query succeeded.");
+                    console.log(data);
+                    console.log(data.Item.actual_title.S);
+                    //data.Items.forEach(function(item) {
+                    //console.log("something was found");
+                    storage.newGame(session).save(function () {
+                    var speechOutput = 'Ok. Let\'s cook ' + recipeName + '. Do you want to hear ingredients, begin cooking, or other?';
+                    var repromptText = 'Do you want to hear ingredients, begin cooking, or other?';
+                    response.ask(speechOutput, repromptText);
+                    });
+
+        
+            }
+        });
+
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+            } else {
+                // set the state holder to be the new recipe name
+                console.log("found the item");
+                console.log(data);
+
+                dynamodb.putItem({
+                    TableName: 'RecipeState',
+                    Item: {
+                        Name: {
+                            S: 'test'
+                        },
+                        Recipe: {
+                            S: recipeName
+                        },
+                        Step: {
+                            N: '1'
+                        }
+
+                    }
+                }, function (err, data) {
+                    if (err){
+                        console.log(err);
+                    }
+                    
+                });
+                console.log(data);
+            }
         });
         return;
+
+
+        
 
 
 
@@ -55,7 +148,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
                 }
             });
         });
-    };
+    }
 
     // TASK: actually link this to database, pulling
     intentHandlers.ListIngredientsIntent = function (intent, session, response) {
@@ -91,9 +184,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
             currentGame.data.step = currentGame.data.step + 1;
             response.ask('Next step.', 'Next step.');
-            currentGame.save(function (){
-
-            });
+            currentGame.save();
             return;
             
         });
