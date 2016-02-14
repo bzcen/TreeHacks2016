@@ -153,8 +153,70 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     // TASK: actually link this to database, pulling
     intentHandlers.ListIngredientsIntent = function (intent, session, response) {
 
-        response.ask('The ingredients are ', 'Do you want to hear ingredients, begin cooking, or other?');
-        return;
+        var AWS = require("aws-sdk");
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+        });
+        var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+        var id;
+        var list;
+        console.log(dynamodb);
+        dynamodb.getItem({
+            TableName: 'RecipeState',
+            Key: {
+                Name: {
+                    S: "test"
+                }
+            }
+        }, function (err, data){
+            console.log(data);
+            if (err){
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                return;
+            }
+            if (data === undefined){
+                console.log("unable to find the item");
+                return;
+            } else {
+                console.log("found the item");
+                id = data.Item.Recipe.S;
+                console.log(id);
+                dynamodb.getItem({
+                    TableName: 'Recipes',
+                    Key: {
+                        title: {
+                            S: id
+                        }
+                    }
+                }, function (err, data){
+                    if (err){
+                        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                    }
+                    if (data === undefined){
+                        console.log("unable to find the item");
+
+                    }else {
+                        list = data.Item.ingredients.L;
+                        console.log(list);
+                        var text = "The ingredients are ";
+
+                        var length = list.length;
+                        for (var i = 0; i < length; i++){
+                            text += list[i].S + ", ";
+                        }
+
+                        response.ask(text + ".", "Do you want to hear ingredients, begin cooking, or other?");
+
+
+                    }
+                });
+
+            }
+        });
+
+
+
     }
 
     intentHandlers.AskCaloriesIntent = function (intent, session, response) {
