@@ -23,23 +23,25 @@ var registerEventHandlers = function (eventHandlers, skillContext) {
         //Speak welcome message and ask user questions
         //based on whether there are players or not.
         storage.loadGame(session, function (currentGame) {
-            var speechOutput = '',
-                reprompt;
+            var speechOutput = 'Welcome to Echo Chef',
+                reprompt = 'Hello, how may I help?';
+                /*
             if (currentGame.data.players.length === 0) {
-                speechOutput += 'ScoreKeeper, Let\'s start your game. Who\'s your first player?';
-                reprompt = "Please tell me who is your first player?";
+                //speechOutput += 'ScoreKeeper, Let\'s start your game. Who\'s your first player?';
+                //reprompt = "Please tell me who is your first player?";
             } else if (currentGame.isEmptyScore()) {
-                speechOutput += 'ScoreKeeper, '
-                    + 'you have ' + currentGame.data.players.length + ' player';
-                if (currentGame.data.players.length > 1) {
-                    speechOutput += 's';
-                }
-                speechOutput += ' in the game. You can give a player points, add another player, reset all players or exit. Which would you like?';
-                reprompt = textHelper.completeHelp;
+                //speechOutput += 'ScoreKeeper, '
+                 //   + 'you have ' + currentGame.data.players.length + ' player';
+                //if (currentGame.data.players.length > 1) {
+                 //   speechOutput += 's';
+                //}
+                //speechOutput += ' in the game. You can give a player points, add another player, reset all players or exit. Which would you like?';
+                //reprompt = textHelper.completeHelp;
             } else {
-                speechOutput += 'ScoreKeeper, What can I do for you?';
-                reprompt = textHelper.nextHelp;
+                //speechOutput += 'ScoreKeeper, What can I do for you?';
+                //reprompt = textHelper.nextHelp;
             }
+            */
             response.ask(speechOutput, reprompt);
         });
     };

@@ -17,13 +17,13 @@ var textHelper = (function () {
 
     return {
         completeHelp: 'Here\'s some things you can say,'
-        + ' add john.'
-        + ' give john 5 points.'
-        + ' tell me the score.'
-        + ' new game.'
-        + ' reset.'
+        + ' cook a recipe'
+        + ' ask for its ingredients'
+        + ' tell me its calories per serving'
+        + ' how many servings does it make?'
+        + ' how do people rate it'
         + ' and exit.',
-        nextHelp: 'You can give a player points, add a player, get the current score, or say help. What would you like?',
+        nextHelp: 'What would you like?',
 
         getRecipeName: function (recognizedRecipeName) {
             if (!recognizedRecipeName) {
@@ -42,6 +42,13 @@ var textHelper = (function () {
                 return undefined;
             }
             return newName;
+        },
+
+        getRatingValue: function (recognizedRatingValue){
+            if (!recognizedRatingValue){
+                return undefined
+            }
+            return recognizedRatingValue;
         }
     };
 })();
