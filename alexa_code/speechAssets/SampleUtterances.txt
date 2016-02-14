@@ -349,8 +349,6 @@ ResetPlayersIntent wipe those players
 ResetPlayersIntent wipe those points
 ResetPlayersIntent wipe those numbers
 
-NewRecipeIntent begin a game {RecipeName}
-
 TellScoresIntent first
 TellScoresIntent first place
 TellScoresIntent give me the numbers
@@ -460,8 +458,41 @@ AskCaloriesIntent recite the calories
 
 
 AskNumServingsIntent servings
+AskNumServingsIntent how many people will be served
+AskNumServingsIntent number of servings
+AskNumServingsIntent how many servings
+AskNumServingsIntent how much will this cook
+AskNumServingsIntent how many people will be fed
+AskNumServingsIntent how many will this feed
 
 AskRatingIntent rating
+AskRatingIntent how good is this recipe
+AskRatingIntent what do people think of this recipe
+AskRatingIntent what is the rating for this recipe
+AskRatingIntent what is the rating
+AskRatingIntent how good is this
+AskRatingIntent is this good
 
 RepeatStepIntent can you repeat that
 RepeatStepIntent repeat
+RepeatStepIntent what was that again
+RepeatStepIntent what
+RepeatStepIntent can you say that again
+RepeatStepIntent repeat that again
+RepeatStepIntent say that step again
+RepeatStepIntent say that again
+RepeatStepIntent repeat that
+
+PreviousStepIntent previous
+PreviousStepIntent can you go back a step
+PreviousStepIntent can you go to the previous step
+PreviousStepIntent can you go back one
+PreviousStepIntent can you go back one step
+
+NewRecipeIntent cook {RecipeName}
+NewRecipeIntent begin a game {RecipeName}
+NewRecipeIntent cook the recipe to {RecipeName}
+NewRecipeIntent give me the recipe to {RecipeName}
+NewRecipeIntent give me a recipe for {RecipeName}
+NewRecipeIntent give me the recipe for {RecipeName}
+
